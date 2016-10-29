@@ -1,118 +1,76 @@
-import React from 'react';
-import request from 'superagent';
+/* libraries */
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import prefix from 'superagent-prefix';
+import { push } from 'react-router-redux';
 
 /* material-ui */
-import { AppBar, RaisedButton } from 'material-ui';
+import { AppBar } from 'material-ui';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { lightGreen400 } from 'material-ui/styles/colors';
+import { orange300, grey800 } from 'material-ui/styles/colors';
 
-/* icons */
-import UserPage from 'material-ui/svg-icons/action/account-box';
-import Exit from 'material-ui/svg-icons/action/exit-to-app';
-import NewsFeeds from 'material-ui/svg-icons/action/picture-in-picture';
-import Person from 'material-ui/svg-icons/social/person';
-import PersonAdd from 'material-ui/svg-icons/social/person-add';
+/* custom components */
+import * as config from './config';
 
-/* components */
-import LeftNav from './components/LeftNav';
-import { NewUserDialog } from './components/NewUser';
-import { LoginDialog } from './components/Login';
-import { PostBoard, PostList } from './components/Post';
+import { sendAjax } from './actions/api';
+import * as actions from './actions';
 
-const server = prefix('https://react.junyi.nctu.me');
 const muiTheme = getMuiTheme({
   palette: {
-    primary1Color: lightGreen400,
-  }
+    primary1Color: grey800,
+    accent1Color: orange300
+  },
 });
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.onLeftIconButtonTouchTap = this.onLeftIconButtonTouchTap.bind(this);
-    this.loadPosts = this.loadPosts.bind(this);
+    this.state = {};
 
-    this.state = { posts: [] };
-    this.loadPosts();
+    this.login = this.login.bind(this);
+    this.postLogin = this.postLogin.bind(this);
   }
-  onLeftIconButtonTouchTap() {
-    this.refs.myNav.handleToggle();
+  getChildContext() {
+    const { props: { token }, login, postLogin } = this;
+    return {
+      token,
+      login,
+      postLogin,
+      config,
+      location: this.props.location,
+      setToken: this.props.setToken,
+      server: prefix(config.SERVER_HOST),
+    };
   }
-  loadPosts(url = '/posts') {
-    url = '/api' + url;
-    request.get(url)
-      .use(server)
-      .accept('json')
-      .end((err, res) => {
-        if (err) {
-          console.error(err);
-        } else {
-          this.setState({ posts: res.body });
-        }
-      });
+  login() {
+    const { store } = this.context;
+    store.dispatch(push('/login'));
   }
-  newUserDialogToggle() {
-    this.refs.newUserDialog.onRequestClose(); // toggle
-  }
-  loginDialogToggle() {
-    this.refs.loginDialog.onRequestClose(); // toggle
-  }
-  postNewUser() {
-    this.refs.newUserDialog.onRequestClose(); // toggle
-    this.refs.loginDialog.onRequestClose(); // toggle
-  }
-  postLogin(data) {
-    this.setState({ username: data.username });
-    this.refs.loginDialog.onRequestClose(); // toggle
+  postLogin() {
+    const { store } = this.context;
+    store.dispatch(push('/'));
   }
   render() {
-    const fullSize = {
-      width: '100vw',
-      height: '100vh',
-      position: 'absolute'
-    };
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div style={fullSize}>
+        <div style={{width: '100vw', height: '100vh', position: 'absolute'}}>
           <AppBar
-            onLeftIconButtonTouchTap={this.onLeftIconButtonTouchTap}
-            style={{ position: 'fixed' }}
-            title={"Hello, " + this.state.username}
+            style={{ position: 'fixed', top: 0 }}
+            showMenuIconButton={false}
+            title="Yee"
+            iconElementRight={this.props.appbarElementRight}
           />
-          <LeftNav ref="myNav">
-            <RaisedButton
-              label="New User"
-              onTouchTap={this.newUserDialogToggle.bind(this)}
-            />
-            <RaisedButton
-              label="Login"
-              onTouchTap={this.loginDialogToggle.bind(this)}
-            />
-            <RaisedButton label="123" secondary={true} />
-          </LeftNav>
-          <NewUserDialog
-            ref="newUserDialog"
-            server={server}
-            postNewUser={this.postNewUser.bind(this)} />
-          <LoginDialog
-            ref="loginDialog"
-            server={server}
-            postLogin={this.postLogin.bind(this)} />
-
           <div
             style={{
-              position: 'relative',
+              position: 'absolute',
+              top: 64,
               height: 'calc(100% - 64px)',
-              top: '64px'
+              width: '100%',
+              overflow: 'auto'
             }}
           >
-            <PostBoard
-              username={this.state.username}
-              loadPosts={this.loadPosts}
-              server={server} />
-            <PostList posts={this.state.posts} />
+            {this.props.children}
           </div>
         </div>
       </MuiThemeProvider>
@@ -120,4 +78,29 @@ class App extends React.Component {
   }
 }
 
-export default App;
+App.contextTypes = {
+  router: PropTypes.object.isRequired,
+  store: PropTypes.object.isRequired
+};
+
+App.childContextTypes = {
+  setToken: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+  postLogin: PropTypes.func.isRequired,
+  config: PropTypes.object,
+  token: PropTypes.string,
+  server: PropTypes.func.isRequired,
+  profile: PropTypes.object,
+};
+
+const mapStateToProps = (state, props) => ({
+  token: state.auth.token,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setToken: token => {
+    dispatch(actions.setToken(token));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

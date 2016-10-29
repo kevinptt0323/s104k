@@ -1,9 +1,16 @@
 import React from 'react';
-import ReactDom from 'react-dom';
-import App from './app';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
 
-require('react-tap-event-plugin')();
-require('normalize-css');
+import Routes from './Routes';
+import configureStore from './stores/configureStore';
 
-ReactDom.render(<App />, document.getElementById('app'));
+const store = configureStore();
+
+render(
+  <Provider store={store}>
+    <Routes />
+  </Provider>,
+  document.getElementById('app')
+);
 

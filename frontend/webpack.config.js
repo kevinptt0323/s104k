@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 const config = {
+  //devtool: 'cheap-module-source-map',
   entry: [
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
@@ -22,8 +23,13 @@ const config = {
     }]
   },
   plugins: [
-    // new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    //new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    //new webpack.DefinePlugin({
+    //  'process.env': {
+    //    'NODE_ENV': JSON.stringify('production')
+    //  }
+    //})
   ]
 };
 
