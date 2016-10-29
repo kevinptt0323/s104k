@@ -58,7 +58,7 @@ class User extends db {
         });
     }
 
-    Jobs(cid, job, cb){
+    Job(cid, job, cb){
         job.cid = cid;
         let connection = mysql.createConnection(this.config);
         connection.connect();
