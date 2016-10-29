@@ -1,14 +1,28 @@
 import React, { PropTypes } from 'react';
 import socket from 'socket.io-client';
 
+import Avatar from 'material-ui/Avatar';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import {List, ListItem} from 'material-ui/List';
+import { darkBlack } from 'material-ui/styles/colors';
 
-const ChatMessages = ({messages, ...props}, context) => {
+const ChatMessages = ({messages, style, ...props}, context) => {
   return (
-    <div>
-      { messages.map(({account, message, time}) => <div>{`${account}: ${message} (${time})`}</div>) }
-    </div>
+    <List style={style}>
+      { messages.map(({account, message, time}) => (
+        <ListItem
+          leftAvatar={<Avatar size={30}>{account[0]}</Avatar>}
+          primaryText={message}
+          secondaryText={
+            <p>
+              {`${account} 於 ${time}`}
+            </p>
+          }
+          secondaryTextLines={2}
+        />
+      )) }
+    </List>
   );
 };
 
@@ -19,8 +33,8 @@ class ChatInput extends React.Component {
   render() {
     const { props: {onSubmit, value, ...props} } = this;
     return (
-      <div>
-        <TextField fullWidth={true} value={value} {...props} />
+      <div style={{ display: 'flex' }}>
+        <TextField fullWidth={true} value={value} hintText="留言..." {...props} />
         <FlatButton disabled={!value} label="送出" primary={true} onTouchTap={onSubmit} />
       </div>
     );
@@ -60,14 +74,19 @@ class ChatRoom extends React.Component {
       account: "XD",
       message: this.state.text
     });
-    this.setState({ text: "" });
   }
 
   render() {
     const { cid } = this.props;
     return (
       <div>
-        <ChatMessages messages={this.state.messages} />
+        <ChatMessages
+          messages={this.state.messages}
+          style={{
+            height: 'calc(100vh - 48px - 64px - 16px)',
+            overflow: 'auto',
+            boxShadow: '-3px -6px 10px rgba(0, 0, 0, .4) inset',
+          }} />
         <ChatInput value={this.state.text} onChange={this.onTextChange} onSubmit={this.onSubmit} />
       </div>
     );
