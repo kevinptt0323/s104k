@@ -19,7 +19,7 @@ class User extends db {
             this._Login(info, (err, result)=>{
                 if(result.length != 1){
                     err = "account or password fault";
-                    cb(err, null);
+                    cb({err}, null);
                 } else{
                     let token = jwt.sign({id: result[0].id}, this.secret);
                     result = {token};

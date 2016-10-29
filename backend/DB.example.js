@@ -3,7 +3,7 @@ let mysql = require('mysql');
 class DB {
     constructor(){
         this.config = {
-            host: '',
+            host: 'localhost',
             user: '',
             password: '',
             database: ''
@@ -58,7 +58,7 @@ class DB {
                     cb(err, result);
                 });
             } else {
-                cb("id not found", null);
+                cb({err:"id not found"}, null);
             }
         });
     }
