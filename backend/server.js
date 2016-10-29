@@ -76,6 +76,15 @@ app.get('/user', (req, res)=>{
     });
 });
 
+app.post('/jobs', (req, res)=>{
+    user.Job(req.get('token'), (err, result)=>{
+        if(err)
+            res.send(err);
+        else
+            res.send(result);
+    });
+});
+
 server.listen(port, ()=>{
     console.log('Server listening on %d', port);
 });
