@@ -1,5 +1,5 @@
 {
-  "name": "client-example",
+  "name": "frontend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,14 +9,22 @@
     "start": "webpack-dev-server --inline --hot --content-base build"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
+    "deep-equal": "^1.0.1",
     "material-ui": "^0.15.2",
     "normalize-css": "^2.3.1",
     "react": "^15.2.1",
     "react-addons-update": "^15.3.0",
     "react-dom": "^15.2.1",
+    "react-ga": "^2.1.1",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.6.1",
+    "react-router-redux": "^4.0.5",
+    "react-router-scroll": "^0.3.1",
     "react-tap-event-plugin": "^1.0.0",
+    "redux": "^3.5.2",
+    "redux-thunk": "^2.1.0",
     "superagent": "^2.1.0",
     "superagent-prefix": "0.0.2"
   },
