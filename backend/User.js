@@ -60,11 +60,8 @@ class User extends db {
 
     Job(cid, job, cb){
         job.cid = cid;
-        let connection = mysql.createConnection(this.config);
-        connection.connect();
-        connection.query("INSERT INTO Jobs SET ?", job, (err, result)=>{
+        this.Insert('Jobs', job, (err, result)=>{
             console.log(result);
-            connection.destroy();
             cb(err, result);
         });
         
