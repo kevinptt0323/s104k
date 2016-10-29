@@ -36,6 +36,12 @@ class User extends db {
             cb(err, result);
         });   
     }
+
+    GetRate(id, cb){
+        this._GetRate(id, (result)=>{
+            cb(result);
+        });
+    }
 }
 
 module.exports = User;

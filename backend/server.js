@@ -22,8 +22,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Credentials", true);
-    res.header("Access-Control-Allow-Methods", 'GET PUT POST DELETE');
-    res.header("Access-Control-Allow-Header", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", 'GET, PUT, POST, DELETE');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
 app.post('/', (req, res)=>{
@@ -59,6 +59,12 @@ app.post('/rate', upload.array(), (req, res)=>{
     } else {
         res.send({err: "lack of id or score"});
     }
+});
+
+app.get('/rate', upload.array(), (req, res)=>{
+    user.GetRate(req.query.id, (result)=>{
+        res.send(result);
+    });
 });
 
 server.listen(port, ()=>{
