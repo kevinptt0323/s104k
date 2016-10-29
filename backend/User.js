@@ -42,6 +42,10 @@ class User extends db {
             cb(result);
         });
     }
+
+    Subscribe(token, cb){
+        let id = jwt.verify(token, this.secret);
+    }
 }
 
 module.exports = User;

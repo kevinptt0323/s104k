@@ -67,6 +67,10 @@ app.get('/rate', upload.array(), (req, res)=>{
     });
 });
 
+app.post('/subscribe', upload.array(), (req, res) =>{
+    let token = req.get('token');  
+});
+
 server.listen(port, ()=>{
     console.log('Server listening on %d', port);
 });
