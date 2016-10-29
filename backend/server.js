@@ -51,9 +51,6 @@ app.post('/rate', upload.array(), (req, res)=>{
     });
 });
 
-app.listen(8787, ()=>{
-    console.log("server start...");
-=======
 server.listen(port, ()=>{
     console.log('Server listening on %d', port);
 });
