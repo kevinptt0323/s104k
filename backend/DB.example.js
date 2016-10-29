@@ -25,11 +25,19 @@ class DB {
     Select(table, where, cb){
         let connection = mysql.createConnection(this.config);
         connection.connect();
-        connection.query("SELECT * FROM ?? WHERE ?", [table, where], (err, result)=>{
-            console.log(result);
-            connection.destroy();
-            cb(err, result);
-        });
+        if(where){
+            connection.query("SELECT * FROM ?? WHERE ?", [table, where], (err, result)=>{
+                console.log(result);
+                connection.destroy();
+                cb(err, result);
+            });
+        } else {
+            connection.query("SELECT * FROM ??", [table], (err, result)=>{
+                console.log(result);
+                connection.destroy();
+                cb(err, result);
+            });
+        }
     }
     
     _Login(info, cb){
@@ -64,13 +72,23 @@ class DB {
     }
 
     _GetRate(id, cb){
-        this.Select('User', {id}, (err, result)=>{
-            if(result.length == 1){
-                cb({score: result[0].score/result[0].scoreCnt});
-            } else {
-                cb({err: "id not found"});
-            }
-        });
+        if(id){
+            this.Select('User', {id}, (err, result)=>{
+                if(result.length == 1){
+                    cb({id: result[0].id, score: result[0].score/result[0].scoreCnt});
+                } else {
+                    cb({err: "id not found"});
+                }
+            });
+        } else {
+            this.Select('User', null, (err, result) => {
+                let scores = [];
+                result.map( (n) => {
+                    scores.push({id: n.id, score: n.score/n.scoreCnt});
+                });
+                cb(scores);
+            });
+        }
     }
 }
 
