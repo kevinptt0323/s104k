@@ -57,7 +57,7 @@ class App extends React.Component {
           <AppBar
             style={{ position: 'fixed', top: 0 }}
             showMenuIconButton={false}
-            title="Yee"
+            title="S104k - 人力銀行"
             iconElementRight={this.props.appbarElementRight}
           />
           <div

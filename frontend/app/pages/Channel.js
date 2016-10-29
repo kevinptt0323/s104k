@@ -17,7 +17,7 @@ class Channel extends React.Component {
           Left Selection
         </div>
         <div style={{flex: 2}}>
-          <ChatRoom cid={cid} />
+          <ChatRoom room={cid} />
         </div>
       </Paper>
     );
