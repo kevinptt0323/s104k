@@ -57,6 +57,18 @@ class User extends db {
             }
         });
     }
+
+    Jobs(cid, job, cb){
+        job.cid = cid;
+        let connection = mysql.createConnection(this.config);
+        connection.connect();
+        connection.query("INSERT INTO Jobs SET ?", job, (err, result)=>{
+            console.log(result);
+            connection.destroy();
+            cb(err, result);
+        });
+        
+    }
 }
 
 module.exports = User;
