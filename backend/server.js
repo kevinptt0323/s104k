@@ -43,12 +43,16 @@ app.post('/login', upload.array(), (req, res)=>{
 });
 
 app.post('/rate', upload.array(), (req, res)=>{
-    user.Rate(req.body.id, req.body.score, (err, result)=>{
-        if(err)
-            res.send(err);
-        else
-            res.send(result);
-    });
+    if(req.body.id && req.body.score){
+        user.Rate(req.body.id, req.body.score, (err, result)=>{
+            if(err)
+                res.send(err);
+            else
+                res.send(result);
+        });
+    } else {
+        res.send({err: "lack of id or score"});
+    }
 });
 
 server.listen(port, ()=>{
