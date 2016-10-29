@@ -1,14 +1,8 @@
 let mysql = require('mysql');
-
+let config = require('./DB.config');
 class DB {
     constructor(){
-        this.config = {
-            host: 'localhost',
-            user: '',
-            password: '',
-            database: ''
-        };
-
+        this.config = config;
         this.secret = 'meowmoewwoofwoof';
     }
 
