@@ -15,9 +15,10 @@ class ChatRoom extends React.Component {
     });
   }
   render() {
+    const { cid } = this.props;
     return (
       <div>
-        Hello, world!
+        Welcome to Room {cid}!
       </div>
     );
   }

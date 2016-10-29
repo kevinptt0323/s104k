@@ -6,7 +6,7 @@ import { SERVER_HOST } from '../config';
 const server = prefix(SERVER_HOST);
 
 export const sendAjax = ({withToken = false, ...options}) => (dispatch, getState) => {
-  const { method, path, query = {}, body, failureType, successType, sendingType } = options;
+  const { method, path, query = {}, body, sendingType } = options;
 
   dispatch({ type: sendingType });
 

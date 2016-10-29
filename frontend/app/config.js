@@ -1,1 +1,1 @@
-export const SERVER_HOST = 'http://localhost:8000';
+export const SERVER_HOST = 'http://s104k.nctu.me:8787';

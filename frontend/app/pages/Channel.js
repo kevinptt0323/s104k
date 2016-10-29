@@ -10,15 +10,14 @@ class Channel extends React.Component {
 
   }
   render() {
-    const { props } = this;
-    if (!props.cid) props.cid = "1";
+    const { cid="1" } = this.props.params;
     return (
       <Paper style={{display: 'flex'}}>
         <div style={{flex: 1, borderRight: '1px solid #ccc', height: 400}}>
           Left Selection
         </div>
         <div style={{flex: 2}}>
-          <ChatRoom {...props} />
+          <ChatRoom cid={cid} />
         </div>
       </Paper>
     );

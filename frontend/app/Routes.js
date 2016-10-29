@@ -25,7 +25,10 @@ const Routes = (props, context) => {
     <Router history={historyStore} render={applyRouterMiddleware(useScroll())}>
       <Route path="/" component={App}>
         <Route path="login" component={Login} />
-        <Route path="channel/:id" component={Channel} />
+        <Route path="channel">
+          <IndexRoute component={Channel} />
+          <Route path=":cid" component={Channel} />
+        </Route>
       </Route>
     </Router>
   );
