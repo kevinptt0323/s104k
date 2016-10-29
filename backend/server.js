@@ -77,7 +77,7 @@ app.get('/user', (req, res)=>{
 });
 
 app.post('/jobs', (req, res)=>{
-    user.Job(req.get('token'), (err, result)=>{
+    user.Job(req.get('token'), req.body, (err, result)=>{
         if(err)
             res.send(err);
         else
