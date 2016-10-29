@@ -4,12 +4,12 @@ class DB {
     constructor(){
         this.config = {
             host: 'localhost',
-            user: 'Justin',
-            password: 'l5162891',
-            database: 'Justin'
+            user: 'user',
+            password: 'password',
+            database: 'database'
         };
 
-        this.secret = 'meowmoewwoofwoof';
+        this.secret = 'abcdefghijklmnopqrstuvwxyz';
     }
 
     Insert(table, obj, cb){
