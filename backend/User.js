@@ -14,7 +14,7 @@ class User extends db {
 
     Login(info, cb){
         if(info.token){
-            
+
         }else if(info.account && info.password){
             this._Login(info, (err, result)=>{
                 if(result.length != 1){
@@ -34,7 +34,7 @@ class User extends db {
     Rate(id, score, cb){
         this._Rate(id, score, (err, result)=>{
             cb(err, result);
-        });   
+        });
     }
 
     GetRate(id, cb){
@@ -43,8 +43,11 @@ class User extends db {
         });
     }
 
-    Subscribe(token, cb){
-        let id = jwt.verify(token, this.secret);
+    Subscribe(token, id, cb){
+        let subscriberId = jwt.verify(token, this.secret);
+        this._Subecribe(id, subscriberId, (err, result) => {
+            cb(err, result);
+        });
     }
 }
 

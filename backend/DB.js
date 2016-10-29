@@ -43,17 +43,17 @@ class DB {
             cb(err, result);
         });
     }
-    
+
     _Login(info, cb){
         let connection = mysql.createConnection(this.config);
         connection.connect();
-        connection.query("SELECT * FROM User WHERE account = ? AND password = ?", 
+        connection.query("SELECT * FROM User WHERE account = ? AND password = ?",
             [info.account, info.password], (err, result)=>{
             console.log(result);
             connection.destroy();
             cb(err, result);
         });
-        
+
     }
 
     _Rate(id, score, cb){
@@ -63,7 +63,7 @@ class DB {
                 let totalCnt = result[0].scoreCnt + 1;
                 let connection = mysql.createConnection(this.config);
                 connection.connect();
-                connection.query("UPDATE User SET ? WHERE ?", 
+                connection.query("UPDATE User SET ? WHERE ?",
                     [{score: totalScore, scoreCnt: totalCnt}, {id}], (err, result)=>{
                     console.log(result);
                     connection.destroy();
@@ -95,7 +95,15 @@ class DB {
         }
     }
 
-    _Subecribe(id, cb){
+    _Subecribe(id, subscriberId, cb){
+        if (id && subscriberId) {
+            this.Insert('Subscribe', {id, subscriberId}, (err, result) => {
+                cb(err, result);
+            } );
+        }
+        else {
+            cb({err : "something null"});
+        }
     }
 }
 
