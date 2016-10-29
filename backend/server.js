@@ -7,6 +7,11 @@ const multer = require('multer');
 const bodyParser = require('body-parser');
 let upload  = multer();
 let app = express();
+let server = require('http').createServer(app);
+let port = process.env.PORT || 8787;
+
+let Channel = require('./Channel.js');
+Channel(server);
 
 let User = require('./User');
 let user = new User();
@@ -37,6 +42,6 @@ app.post('/login', upload.array(), (req, res)=>{
     });      
 });
 
-app.listen(8787, ()=>{
-    console.log("server start...");
+server.listen(port, ()=>{
+    console.log('Server listening on %d', port);
 });
