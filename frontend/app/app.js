@@ -38,7 +38,6 @@ class App extends React.Component {
       login,
       postLogin,
       config,
-      location: this.props.location,
       setToken: this.props.setToken,
       server: prefix(config.SERVER_HOST),
     };
