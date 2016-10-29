@@ -38,7 +38,6 @@ class App extends React.Component {
       login,
       postLogin,
       config,
-      setToken: this.props.setToken,
       server: prefix(config.SERVER_HOST),
     };
   }
@@ -83,7 +82,6 @@ App.contextTypes = {
 };
 
 App.childContextTypes = {
-  setToken: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
   postLogin: PropTypes.func.isRequired,
   config: PropTypes.object,
@@ -97,9 +95,6 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setToken: token => {
-    dispatch(actions.setToken(token));
-  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

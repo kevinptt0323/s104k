@@ -69,26 +69,13 @@ class LoginForm extends React.Component {
             type: 'LOGIN_SUCCEED',
             response: body
           });
-          store.dispatch(push('/channel'));
+          store.dispatch(push('/channel/1'));
         }).catch(error => {
           store.dispatch({
             type: 'LOGIN_FAILED',
             response: error
           });
         });
-        /*
-        request.post('/api/login')
-          .send(data)
-          .use(prefix)
-          .accept('json')
-          .end((err, res) => {
-            if( err ) {
-              console.error(err);
-            } else {
-              this.props.setToken(res.body.data.token, onLogin);
-            }
-          });
-        */
       }, () => {
         console.error("failed");
       })
