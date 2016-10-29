@@ -43,10 +43,10 @@ class User extends db {
         });
     }
 
-    Subscribe(token, id, cb){
+    Subscribe(id, token, cb){
         let subscriberId = jwt.verify(token, this.secret);
-        let id2 = subscriberId.id;
-        this._Subecribe(id2, id, (err, result) => {
+        let userId = subscriberId.id;
+        this._Subecribe( id, userId,  (err, result) => {
             cb(err, result);
         });
     }

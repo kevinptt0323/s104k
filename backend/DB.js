@@ -96,8 +96,10 @@ class DB {
     }
 
     _Subecribe(id, subscriberId, cb){
+        
+        let obj = {"employer_id" : id, "subscriber_id" : subscriberId};
         if (id && subscriberId) {
-            this.Insert('Subscribe', {id, subscriberId}, (err, result) => {
+            this.Insert('Subscribe', obj , (err, result) => {
                 cb(err, result);
             } );
         }

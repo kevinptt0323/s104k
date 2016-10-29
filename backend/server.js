@@ -70,8 +70,7 @@ app.get('/rate', upload.array(), (req, res)=>{
 app.post('/subscribe', upload.array(), (req, res) =>{
     let token = req.get('token');
     let id = req.body.id;
-    console.log("!!");
-    user.Subscribe(token , id, (err, result) => {
+    user.Subscribe( id, token, (err, result) => {
         res.sendStatus(200);
     });
 });
