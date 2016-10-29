@@ -37,6 +37,15 @@ app.post('/login', upload.array(), (req, res)=>{
     });      
 });
 
+app.post('/rate', upload.array(), (req, res)=>{
+    user.Rate(req.body.id, req.body.score, (err, result)=>{
+        if(err)
+            res.send(err);
+        else
+            res.send(result);
+    });
+});
+
 app.listen(8787, ()=>{
     console.log("server start...");
 });

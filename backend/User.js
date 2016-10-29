@@ -30,6 +30,12 @@ class User extends db {
             cb("lack of info", null);
         }
     }
+
+    Rate(id, score, cb){
+        this._Rate(id, score, (err, result)=>{
+            cb(err, result);
+        });   
+    }
 }
 
 module.exports = User;
