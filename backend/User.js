@@ -60,6 +60,7 @@ class User extends db {
 
     Job(cid, job, cb){
         job.cid = cid;
+        console.log(job);
         this.Insert('Jobs', job, (err, result)=>{
             console.log(result);
             cb(err, result);
