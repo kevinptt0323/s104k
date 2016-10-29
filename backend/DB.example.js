@@ -62,6 +62,16 @@ class DB {
             }
         });
     }
+
+    _GetRate(id, cb){
+        this.Select('User', {id}, (err, result)=>{
+            if(result.length == 1){
+                cb({score: result[0].score/result[0].scoreCnt});
+            } else {
+                cb({err: "id not found"});
+            }
+        });
+    }
 }
 
 module.exports = DB;
