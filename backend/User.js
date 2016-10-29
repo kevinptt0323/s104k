@@ -45,7 +45,8 @@ class User extends db {
 
     Subscribe(token, id, cb){
         let subscriberId = jwt.verify(token, this.secret);
-        this._Subecribe(id, subscriberId, (err, result) => {
+        let id2 = subscriberId.id;
+        this._Subecribe(id2, id, (err, result) => {
             cb(err, result);
         });
     }
