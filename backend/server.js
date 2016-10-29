@@ -67,6 +67,15 @@ app.get('/rate', upload.array(), (req, res)=>{
     });
 });
 
+app.get('/user', (req, res)=>{
+    user.GetUserInfo(req.get('token'), (err, result)=>{
+        if(err)
+            res.send(err);
+        else
+            res.send(result);
+    });
+});
+
 server.listen(port, ()=>{
     console.log('Server listening on %d', port);
 });

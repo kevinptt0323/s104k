@@ -42,6 +42,21 @@ class User extends db {
             cb(result);
         });
     }
+
+    GetUserInfo(token, cb){
+        console.log(token);
+        let parsed = jwt.verify(token, this.secret);
+        let id = {id: parsed.id};
+        this.Select('User', id, (err, result)=>{
+            if(result.length == 1){
+                let ret = result[0];
+                delete ret.password;
+                cb(err, ret);
+            } else {
+                cb({err: "wrong id"}, null);
+            }
+        });
+    }
 }
 
 module.exports = User;
