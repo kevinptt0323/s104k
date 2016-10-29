@@ -31,6 +31,16 @@ class DB {
             cb(err, result);
         });
     }
+
+    LoadMsg(room, cb){
+        let connection = mysql.createConnection(this.config);
+        connection.connect();
+        connection.query("SELECT * FROM Channel WHERE roomID = ?", [room], (err, result)=>{
+            console.log(result);
+            connection.destroy();
+            cb(err, result);
+        });
+    }
     
     _Login(info, cb){
         let connection = mysql.createConnection(this.config);
