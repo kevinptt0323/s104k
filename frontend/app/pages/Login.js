@@ -1,4 +1,6 @@
 import React, { PropTypes } from 'react';
+import { push } from 'react-router-redux';
+
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -7,6 +9,11 @@ import LoginForm from '../components/LoginForm';
 class Login extends React.Component {
   constructor(props, context) {
     super(props);
+    this.onLogin = this.onLogin.bind(this);
+  }
+  onLogin() {
+    console.log('XD');
+    this.context.store.dispatch(push('/channel/1'));
   }
   render() {
     const { props } = this;
@@ -19,17 +26,13 @@ class Login extends React.Component {
           alignItems: 'center',
         }}
       >
-        <LoginForm />
+        <LoginForm onLogin={this.onLogin} />
       </div>
     );
   }
 }
 
 Login.contextTypes = {
-  setToken: PropTypes.func.isRequired,
-  postLogin: PropTypes.func.isRequired,
-  server: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
   store: PropTypes.object.isRequired
 };
 

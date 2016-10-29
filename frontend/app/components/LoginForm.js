@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import update from 'react-addons-update';
-import { push } from 'react-router-redux';
 
 import { Avatar, TextField, RaisedButton } from 'material-ui';
 
@@ -10,6 +9,7 @@ class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.login = this.login.bind(this);
+    this.loadProfile = this.loadProfile.bind(this);
     this.state = {
       inputData: { },
       errorText: { }
@@ -50,7 +50,7 @@ class LoginForm extends React.Component {
         this._checkEmpty(field, null, resolve, reject);
       })
     ;
-    //let { onLogin } = this.props;
+    let { onLogin } = this.props;
     const { store } = this.context;
     check('username')
       .then(() => check('password'), () => check('password'))
@@ -69,7 +69,8 @@ class LoginForm extends React.Component {
             type: 'LOGIN_SUCCEED',
             response: body
           });
-          store.dispatch(push('/channel/1'));
+          this.loadProfile(body.token);
+          if (!!onLogin) onLogin();
         }).catch(error => {
           store.dispatch({
             type: 'LOGIN_FAILED',
@@ -77,9 +78,21 @@ class LoginForm extends React.Component {
           });
         });
       }, () => {
-        console.error("failed");
       })
       ;
+  }
+  loadProfile(token) {
+    const { store } =  this.context;
+    store.dispatch(sendAjax({
+      method: 'get',
+      path: '/user',
+      withToken: true,
+      sendingType: 'GET_PROFILE'
+    })).then(({body}) => {
+      console.log(body);
+    }).catch(error => {
+      console.error(error);
+    });
   }
   render() {
     const styles = {

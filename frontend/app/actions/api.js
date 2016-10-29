@@ -6,22 +6,21 @@ import { SERVER_HOST } from '../config';
 const server = prefix(SERVER_HOST);
 
 export const sendAjax = ({withToken = false, ...options}) => (dispatch, getState) => {
-  const { method, path, query = {}, body, sendingType } = options;
+  const { method, path, query = {}, body = {}, sendingType } = options;
 
   dispatch({ type: sendingType });
-
-  if (withToken) {
-    //req.set('Authorization', `Bearer ${token}`);
-    query['token'] = getState().auth.token;
-  }
 
   let req = request[method](path)
     .use(server)
     .query(query);
 
-  if (!!body) {
-    req = req.send(body).set('Content-Type', 'application/json');
+  if (withToken) {
+    let token = getState().auth.token;
+    //req.set('Authorization', `Bearer ${token}`);
+    req.set('Token', token);
   }
+
+  req = req.send(body).set('Content-Type', 'application/json');
 
   return req;
 };
