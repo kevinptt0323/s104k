@@ -5,6 +5,7 @@ import { useScroll } from 'react-router-scroll';
 
 import App from './App';
 import Login from './pages/Login';
+import Channel from './pages/Channel';
 
 require('react-tap-event-plugin')();
 require('normalize-css');
@@ -24,6 +25,7 @@ const Routes = (props, context) => {
     <Router history={historyStore} render={applyRouterMiddleware(useScroll())}>
       <Route path="/" component={App}>
         <Route path="login" component={Login} />
+        <Route path="channel/:id" component={Channel} />
       </Route>
     </Router>
   );
