@@ -112,7 +112,7 @@ class User extends db {
             console.log(result);
         });
     };
-        
+
     Subscribe(id, token, cb){
         let subscriberId = jwt.verify(token, this.secret);
         let userId = subscriberId.id;
@@ -121,9 +121,21 @@ class User extends db {
         });
     }
 
-<<<<<<< HEAD
-    Feedback(message, time, cb) {
-        this._Feedback(message, time, (err, result) => {
+    Feedback(token, message, time, cb) {
+        let decode = null;
+        try {
+            decode = jwt.verify(token, this.secret);
+        } catch (err) {
+            
+        }
+        
+        if ( decode == null) {
+            console.log("token is illegal");
+            cb("token is illegal",null);
+            return;
+        }
+        let userId = decode.id;
+        this._Feedback(userId, message, time, (err, result) => {
             cb(err, result);
         });
     }
