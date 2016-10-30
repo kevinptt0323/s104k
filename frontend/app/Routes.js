@@ -5,6 +5,7 @@ import { useScroll } from 'react-router-scroll';
 
 import App from './App';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import User from './pages/User';
 import Job from './pages/Job';
 import Channel from './pages/Channel';
@@ -28,6 +29,7 @@ const Routes = (props, context) => {
       <Route path="/" component={App}>
         <IndexRedirect to="/login" />
         <Route path="login" component={Login} />
+        <Route path="register" component={Register} />
         <Route path="user/:uid" component={User} />
         <Route path="job/:jid" component={Job} />
         <Route path="channel" onEnter={auth.loginRequired}>
