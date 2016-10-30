@@ -83,7 +83,7 @@ class ChatRoom extends React.Component {
     });
   }
   componentWillUnmount() {
-    this.io.emit('leave room', { room: cid });
+    this.io.emit('leave room', { room: this.props.cid });
   }
   onTextChange(e) {
     this.setState({ text: e.target.value });
