@@ -8,7 +8,8 @@ class JobView extends React.Component {
     const { job } = this.props;
     return (
       <div>
-        { JSON.stringify(job) }
+        {
+        }
       </div>
     );
   }
