@@ -67,8 +67,6 @@ app.get('/rate', upload.array(), (req, res)=>{
     });
 });
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 app.get('/user', (req, res)=>{
     user.GetUserInfo(req.get('Authorization'), (err, result)=>{
         if(err)
