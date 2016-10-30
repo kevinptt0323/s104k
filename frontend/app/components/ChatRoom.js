@@ -82,8 +82,15 @@ class ChatRoom extends React.Component {
       this.setState({ messages: [...this.state.messages, data] });
     });
   }
+  componentWillUpdate(nextProps, nextState) {
+    if (this.props.room!=nextProps.room) {
+      const { user } = this.context;
+      this.io.emit('leave room', { room: this.props.room });
+      this.io.emit('join room', { room: nextProps.room, account: user.name });
+    }
+  }
   componentWillUnmount() {
-    this.io.emit('leave room', { room: this.props.cid });
+    this.io.emit('leave room', { room: this.props.room });
   }
   onTextChange(e) {
     this.setState({ text: e.target.value });
