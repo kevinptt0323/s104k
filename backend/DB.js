@@ -37,7 +37,7 @@ class DB {
     LoadMsg(room, cb){
         let connection = mysql.createConnection(this.config);
         connection.connect();
-        connection.query("SELECT * FROM (SELECT * FROM Channel WHERE roomID = ? ORDER BY time) AS Msg LIMIT 30", [room], (err, result)=>{
+        connection.query("SELECT * FROM (SELECT * FROM Channel WHERE roomID = ? ORDER BY time DESC LIMIT 30) AS Msg ORDER BY time", [room], (err, result)=>{
             console.log(result);
             connection.destroy();
             cb(err, result);
