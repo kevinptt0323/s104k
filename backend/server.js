@@ -80,6 +80,12 @@ app.get('/rate', upload.array(), (req, res)=>{
     });
 });
 
+app.get('/job', upload.array(), (req, res)=>{
+    user.GetJob(req.query.id, (result)=>{
+        res.send(result);
+    });
+});
+
 app.get('/ratejob', upload.array(), (req, res)=>{
     user.GetJobRate(req.query.id, (result)=>{
         res.send(result);
