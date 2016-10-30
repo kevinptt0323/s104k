@@ -57,6 +57,15 @@ class User extends db {
             }
         });
     }
+
+    Job(token, job, cb){
+        job.cid = jwt.verify(token, this.secret).id;
+        this.Insert('Jobs', job, (err, result)=>{
+            console.log(result);
+            cb(err, result);
+        });
+        
+    }
 }
 
 module.exports = User;
