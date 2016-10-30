@@ -1,5 +1,6 @@
 let db = require('./DB');
 let jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 class User extends db {
     constructor(){
@@ -59,9 +60,12 @@ class User extends db {
     }
 
     Job(token, job, cb){
-        console.log(job);
         job.cid = jwt.verify(token, this.secret).id;
+        const hmac = crypto.createHmac('sha256', this.secret);
+        hmac.update(JSON.stringify({id: job.cid, time: new Date()}));
+        job.roomid = hmac.digest('hex');
         console.log(job);
+
         this.Insert('Jobs', job, (err, result)=>{
             console.log(result);
             cb(err, result);
