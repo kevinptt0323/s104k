@@ -50,6 +50,12 @@ class User extends db {
             cb(err, result);
         });
     }
+
+    Feedback(message, time, cb) {
+        this._Feedback(message, time, (err, result) => {
+            cb(err, result);
+        });
+    }
 }
 
 module.exports = User;

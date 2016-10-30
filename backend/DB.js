@@ -96,7 +96,7 @@ class DB {
     }
 
     _Subecribe(id, subscriberId, cb){
-        
+
         let obj = {"employer_id" : id, "subscriber_id" : subscriberId};
         if (id && subscriberId) {
             this.Insert('Subscribe', obj , (err, result) => {
@@ -106,6 +106,13 @@ class DB {
         else {
             cb({err : "something null"});
         }
+    }
+
+    _Feedback(message, time, cb) {
+      let obj = {"message" : message, "time" : time};
+      this.Insert('Feedback', obj, (err, result) => {
+          cb(err, result);
+      });
     }
 }
 
