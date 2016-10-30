@@ -43,6 +43,7 @@ class User extends db {
         });
     }
 
+<<<<<<< HEAD
     GetUserInfo(token, cb){
         console.log(token);
         let parsed = jwt.verify(token, this.secret);
@@ -64,7 +65,10 @@ class User extends db {
             console.log(result);
             cb(err, result);
         });
+    });
         
+    Subscribe(token, cb){
+        let id = jwt.verify(token, this.secret);
     }
 }
 

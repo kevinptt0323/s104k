@@ -94,6 +94,9 @@ class DB {
             });
         }
     }
+
+    _Subecribe(id, cb){
+    }
 }
 
 module.exports = DB;

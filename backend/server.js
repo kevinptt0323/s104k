@@ -67,6 +67,7 @@ app.get('/rate', upload.array(), (req, res)=>{
     });
 });
 
+<<<<<<< HEAD
 app.get('/user', (req, res)=>{
     user.GetUserInfo(req.get('Authorization'), (err, result)=>{
         if(err)
@@ -86,6 +87,10 @@ app.post('/jobs', (req, res)=>{
         else
             res.send(result);
     });
+});
+
+app.post('/subscribe', upload.array(), (req, res) =>{
+    let token = req.get('token');  
 });
 
 server.listen(port, ()=>{
