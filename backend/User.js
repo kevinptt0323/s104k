@@ -59,6 +59,7 @@ class User extends db {
     }
 
     Job(token, job, cb){
+        console.log(job);
         job.cid = jwt.verify(token, this.secret).id;
         console.log(job);
         this.Insert('Jobs', job, (err, result)=>{

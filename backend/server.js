@@ -89,7 +89,7 @@ app.post('/jobs', (req, res)=>{
 });
 
 app.post('/subscribe', upload.array(), (req, res) =>{
-    let token = req.get('Authorization');
+    let token = req.get('Authorization').split(' ')[1];
     let id = req.body.id;
     user.Subscribe( id, token, (err, result) => {
         res.sendStatus(200);
