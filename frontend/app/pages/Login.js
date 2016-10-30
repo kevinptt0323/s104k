@@ -12,7 +12,6 @@ class Login extends React.Component {
     this.onLogin = this.onLogin.bind(this);
   }
   onLogin() {
-    console.log('XD');
     this.context.store.dispatch(push('/channel/1'));
   }
   render() {

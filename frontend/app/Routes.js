@@ -24,8 +24,9 @@ const Routes = (props, context) => {
   return (
     <Router history={historyStore} render={applyRouterMiddleware(useScroll())}>
       <Route path="/" component={App}>
+        <IndexRedirect to="/login" />
         <Route path="login" component={Login} />
-        <Route path="channel">
+        <Route path="channel" onEnter={auth.loginRequired}>
           <IndexRoute component={Channel} />
           <Route path=":cid" component={Channel} />
         </Route>

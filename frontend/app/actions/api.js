@@ -16,8 +16,7 @@ export const sendAjax = ({withToken = false, ...options}) => (dispatch, getState
 
   if (withToken) {
     let token = getState().auth.token;
-    //req.set('Authorization', `Bearer ${token}`);
-    req.set('Token', token);
+    req.set('Authorization', `Bearer ${token}`);
   }
 
   req = req.send(body).set('Content-Type', 'application/json');

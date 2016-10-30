@@ -89,9 +89,11 @@ class LoginForm extends React.Component {
       withToken: true,
       sendingType: 'GET_PROFILE'
     })).then(({body}) => {
-      console.log(body);
+      store.dispatch({
+        type: 'GET_PROFILE_SUCCEED',
+        response: body
+      });
     }).catch(error => {
-      console.error(error);
     });
   }
   render() {

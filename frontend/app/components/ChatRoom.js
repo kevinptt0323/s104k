@@ -7,24 +7,41 @@ import TextField from 'material-ui/TextField';
 import {List, ListItem} from 'material-ui/List';
 import { darkBlack } from 'material-ui/styles/colors';
 
-const ChatMessages = ({messages, style, ...props}, context) => {
-  return (
-    <List style={style}>
-      { messages.map(({account, message, time}) => (
-        <ListItem
-          leftAvatar={<Avatar size={30}>{account[0]}</Avatar>}
-          primaryText={message}
-          secondaryText={
-            <p>
-              {`${account} 於 ${time}`}
-            </p>
-          }
-          secondaryTextLines={2}
-        />
-      )) }
-    </List>
-  );
-};
+class ChatMessages extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    const messages1 = this.props.messages;
+    const messages2 = nextProps.messages;
+    if (messages1.length != messages2.length) return true;
+    for(let i in messages1) {
+      if (messages1[i].time != messages2[i].time)
+        return true;
+    }
+    return false;
+  }
+  render() {
+    const { messages, ...props } = this.props;
+    return (
+      <List {...props}>
+        { messages.map(({account, message, time}, idx) => (
+          <ListItem
+            id={idx}
+            leftAvatar={<Avatar size={30}>{account[0]}</Avatar>}
+            primaryText={message}
+            secondaryText={
+              <p>
+                {`${account} 於 ${time}`}
+              </p>
+            }
+            secondaryTextLines={2}
+          />
+        )) }
+      </List>
+    );
+  }
+}
 
 class ChatInput extends React.Component {
   constructor(props) {
@@ -42,6 +59,9 @@ class ChatInput extends React.Component {
 }
 
 class ChatRoom extends React.Component {
+  static contextTypes = {
+    user: PropTypes.object
+  };
   constructor(props) {
     super(props);
     this.state = { messages: [] };
@@ -52,13 +72,13 @@ class ChatRoom extends React.Component {
     this.io = io;
     const { room } = props;
     io.on('connect', () => {
-      io.emit('join room', { room, account: "XD" });
+      const { user } = this.context;
+      io.emit('join room', { room, account: user.name });
     });
     io.on('load msg', (data) => {
       this.setState({ messages: data });
     });
     io.on('broadcast msg', (data) => {
-      console.log(data);
       this.setState({ messages: [...this.state.messages, data] });
     });
   }
@@ -69,11 +89,13 @@ class ChatRoom extends React.Component {
     this.setState({ text: e.target.value });
   }
   onSubmit(e) {
+    const { user } = this.context;
     this.io.emit('send msg', {
       room: this.props.room,
-      account: "XD",
+      account: user.name,
       message: this.state.text
     });
+    this.setState({ text: "" });
   }
 
   render() {
@@ -81,6 +103,7 @@ class ChatRoom extends React.Component {
     return (
       <div>
         <ChatMessages
+          ref="msgs"
           messages={this.state.messages}
           style={{
             height: 'calc(100vh - 48px - 64px - 16px)',
