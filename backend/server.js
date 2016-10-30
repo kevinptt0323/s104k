@@ -76,6 +76,15 @@ app.get('/user', (req, res)=>{
     });
 });
 
+app.get('/user/:userid', (req, res)=>{
+    user.GetSingleUserInfo(req.params.userid, (err, result)=>{
+        if(err)
+            res.send(err);
+        else
+            res.send(result);
+    });
+});
+
 app.post('/kw', upload.array(), (req, res)=> {
 });
 

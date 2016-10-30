@@ -58,6 +58,20 @@ class User extends db {
             }
         });
     }
+    
+    GetSingleUserInfo(id, cb){
+        console.log(id);
+        let uid = {id: id};
+        this.Select('User', uid, (err, result)=>{
+            if(result.length == 1){
+                let ret = result[0];
+                delete ret.password;
+                cb(err, ret);
+            } else {
+                cb({err: "wrong id"}, null);
+            }
+        });
+    }
 
     Job(token, job, cb){
         job.cid = jwt.verify(token, this.secret).id;
