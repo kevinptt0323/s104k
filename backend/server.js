@@ -23,7 +23,7 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Credentials", true);
     res.header("Access-Control-Allow-Methods", 'GET, PUT, POST, DELETE');
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "*");
     next();
 });
 app.post('/', (req, res)=>{
@@ -68,12 +68,16 @@ app.get('/rate', upload.array(), (req, res)=>{
 });
 
 app.get('/user', (req, res)=>{
-    user.GetUserInfo(req.get('token'), (err, result)=>{
+    user.GetUserInfo(req.get('Authorization'), (err, result)=>{
         if(err)
             res.send(err);
         else
             res.send(result);
     });
+});
+
+app.post('/kw', upload.array(), (req, res)=> {
+
 });
 
 server.listen(port, ()=>{
