@@ -33,9 +33,7 @@ class User extends React.Component {
   render() {
     const { profile } = this.context;
     return (
-      <Paper>
-        <UserView profile={profile} />
-      </Paper>
+      <UserView profile={profile} />
     );
   }
 }

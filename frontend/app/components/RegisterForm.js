@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
 import update from 'react-addons-update';
+import { Link } from 'react-router';
 import { push } from 'react-router-redux';
 
-import { Avatar, TextField, RaisedButton } from 'material-ui';
+import { Avatar, TextField, FlatButton, RaisedButton } from 'material-ui';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 
 import { sendAjax } from '../actions/api';
@@ -135,8 +136,9 @@ class RegisterForm extends React.Component {
           errorText={this.state.errorText.name||""}
           onChange={this._checkEmpty.bind(this, 'name')}
         />
-        <div style={{marginTop: 24, display: 'inline-block'}}>
+        <div style={{marginTop: 24, textAlign: 'center'}}>
           <RaisedButton label="Register" primary={true} onTouchTap={this.login} />
+          <Link to='/login'><FlatButton label="Login" primary={true} /></Link>
         </div>
       </div>
     );

@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import update from 'react-addons-update';
 
-import { Avatar, TextField, RaisedButton } from 'material-ui';
+import { Avatar, TextField, FlatButton, RaisedButton } from 'material-ui';
 
 import { sendAjax } from '../actions/api';
 
@@ -120,8 +121,9 @@ class LoginForm extends React.Component {
           errorText={this.state.errorText.password||""}
           onChange={this._checkEmpty.bind(this, 'password')}
         />
-        <div style={{marginTop: 24, display: 'inline-block'}}>
-          <RaisedButton label="Login" primary={true} onTouchTap={this.login} />
+        <div style={{marginTop: 24, textAlign: 'center'}}>
+          <FlatButton label="Login" primary={true} onTouchTap={this.login} />
+          <Link to='/register'><RaisedButton label="Register" primary={true} /></Link>
         </div>
       </div>
     );
