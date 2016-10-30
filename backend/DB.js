@@ -114,6 +114,22 @@ class DB {
         }
     }
 
+    _GetJob(id, cb){
+        if(id){
+            this.Select('Jobs', {id}, (err, result)=>{
+                if(result.length == 1){
+                    cb(result[0]);
+                } else {
+                    cb({err: "id not found"});
+                }
+            });
+        } else {
+            this.Select('Jobs', null, (err, result) => {
+                cb(result);
+            });
+        }
+    }
+    
     _GetJobRate(id, cb){
         if(id){
             this.Select('Jobs', {id}, (err, result)=>{

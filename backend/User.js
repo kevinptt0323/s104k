@@ -50,6 +50,12 @@ class User extends db {
         });
     }
 
+    GetJob(id, cb){
+        this._GetJob(id, (result)=>{
+            cb(result);
+        });
+    }
+
     GetJobRate(id, cb){
         this._GetJobRate(id, (result)=>{
             cb(result);
