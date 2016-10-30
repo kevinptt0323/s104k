@@ -5,6 +5,7 @@ import { useScroll } from 'react-router-scroll';
 
 import App from './App';
 import Login from './pages/Login';
+import User from './pages/User';
 import Channel from './pages/Channel';
 
 require('react-tap-event-plugin')();
@@ -26,6 +27,7 @@ const Routes = (props, context) => {
       <Route path="/" component={App}>
         <IndexRedirect to="/login" />
         <Route path="login" component={Login} />
+        <Route path="user/:uid" component={User} />
         <Route path="channel" onEnter={auth.loginRequired}>
           <IndexRoute component={Channel} />
           <Route path=":cid" component={Channel} />

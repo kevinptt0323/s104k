@@ -69,8 +69,7 @@ class LoginForm extends React.Component {
             type: 'LOGIN_SUCCEED',
             response: body
           });
-          this.loadProfile(body.token);
-          if (!!onLogin) onLogin();
+          this.loadProfile(body.token, onLogin);
         }).catch(error => {
           store.dispatch({
             type: 'LOGIN_FAILED',
@@ -81,18 +80,19 @@ class LoginForm extends React.Component {
       })
       ;
   }
-  loadProfile(token) {
+  loadProfile(token, cb) {
     const { store } =  this.context;
     store.dispatch(sendAjax({
       method: 'get',
       path: '/user',
       withToken: true,
-      sendingType: 'GET_PROFILE'
+      sendingType: 'GET_USER'
     })).then(({body}) => {
       store.dispatch({
-        type: 'GET_PROFILE_SUCCEED',
+        type: 'GET_USER_SUCCEED',
         response: body
       });
+      if (!!cb) cb();
     }).catch(error => {
     });
   }

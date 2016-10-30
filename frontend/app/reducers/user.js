@@ -1,15 +1,16 @@
 const initialState = { data: {} };
-const profileReducer = (state = initialState, action) => {
+const userReducer = (state = initialState, action) => {
+  console.log(action);
   switch(action.type) {
-    case 'GET_PROFILE':
+    case 'GET_USER':
       return state;
-    case 'GET_PROFILE_SUCCEED':
+    case 'GET_USER_SUCCEED':
       return {
         sending: false,
         data: action.response,
         error: null,
       };
-    case 'GET_PROFILE_FAILED':
+    case 'GET_USER_FAILED':
       return {
         sending: false,
         data: {},
@@ -20,5 +21,5 @@ const profileReducer = (state = initialState, action) => {
   }
 };
 
-export default profileReducer;
+export default userReducer;
 
