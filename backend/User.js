@@ -38,8 +38,20 @@ class User extends db {
         });
     }
 
+    RateJob(id, score, cb){
+        this._RateJob(id, score, (err, result)=>{
+            cb(err, result);
+        });
+    }
+
     GetRate(id, cb){
         this._GetRate(id, (result)=>{
+            cb(result);
+        });
+    }
+
+    GetJobRate(id, cb){
+        this._GetJobRate(id, (result)=>{
             cb(result);
         });
     }

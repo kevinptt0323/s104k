@@ -75,6 +75,25 @@ class DB {
         });
     }
 
+    _RateJob(id, score, cb){
+        this.Select('Jobs', {id}, (err, result)=>{
+            if(result.length == 1){
+                let totalScore = result[0].score + parseInt(score);
+                let totalCnt = result[0].scoreCnt + 1;
+                let connection = mysql.createConnection(this.config);
+                connection.connect();
+                connection.query("UPDATE Jobs SET ? WHERE ?",
+                    [{score: totalScore, scoreCnt: totalCnt}, {id}], (err, result)=>{
+                    console.log(result);
+                    connection.destroy();
+                    cb(err, result);
+                });
+            } else {
+                cb({err:"id not found"}, null);
+            }
+        });
+    }
+
     _GetRate(id, cb){
         if(id){
             this.Select('User', {id}, (err, result)=>{
@@ -86,6 +105,26 @@ class DB {
             });
         } else {
             this.Select('User', null, (err, result) => {
+                let scores = [];
+                result.map( (n) => {
+                    scores.push({id: n.id, score: n.score/n.scoreCnt});
+                });
+                cb(scores);
+            });
+        }
+    }
+
+    _GetJobRate(id, cb){
+        if(id){
+            this.Select('Jobs', {id}, (err, result)=>{
+                if(result.length == 1){
+                    cb({id: result[0].id, score: result[0].score/result[0].scoreCnt});
+                } else {
+                    cb({err: "id not found"});
+                }
+            });
+        } else {
+            this.Select('Jobs', null, (err, result) => {
                 let scores = [];
                 result.map( (n) => {
                     scores.push({id: n.id, score: n.score/n.scoreCnt});
