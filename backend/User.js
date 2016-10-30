@@ -83,6 +83,8 @@ class User extends db {
         this.Select('User', uid, (err, result)=>{
             if(result.length == 1){
                 let ret = result[0];
+                ret.score = ret.score/ret.scoreCnt;
+                delete ret.scoreCnt;
                 delete ret.password;
                 cb(err, ret);
             } else {
