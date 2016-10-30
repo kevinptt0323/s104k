@@ -36,7 +36,7 @@ app.post('/register', upload.array(), (req, res)=>{
             res.send(err);
         }
         res.send(result);
-    });      
+    });
 });
 
 app.post('/login', upload.array(), (req, res)=>{
@@ -45,7 +45,7 @@ app.post('/login', upload.array(), (req, res)=>{
             res.send(err);
         else
             res.send(result);
-    });      
+    });
 });
 
 app.post('/rate', upload.array(), (req, res)=>{
@@ -67,6 +67,7 @@ app.get('/rate', upload.array(), (req, res)=>{
     });
 });
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 app.get('/user', (req, res)=>{
     user.GetUserInfo(req.get('Authorization'), (err, result)=>{
@@ -90,7 +91,11 @@ app.post('/jobs', (req, res)=>{
 });
 
 app.post('/subscribe', upload.array(), (req, res) =>{
-    let token = req.get('token');  
+    let token = req.get('token');
+    let id = req.body.id;
+    user.Subscribe( id, token, (err, result) => {
+        res.sendStatus(200);
+    });
 });
 
 server.listen(port, ()=>{
