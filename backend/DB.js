@@ -108,12 +108,13 @@ class DB {
         }
     }
 
-    _Feedback(message, time, cb) {
-      let obj = {"message" : message, "time" : time};
-      this.Insert('Feedback', obj, (err, result) => {
-          cb(err, result);
-      });
-    }
+    _Feedback(userId, message, time, cb) {
+        
+        let obj = {"userId" : userId, "message" : message, "time" : time};
+        this.Insert('Feedback', obj, (err, result) => {
+            cb(err, result);
+        });
+      }
 }
 
 module.exports = DB;

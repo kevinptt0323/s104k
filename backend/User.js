@@ -71,7 +71,7 @@ class User extends db {
             cb(err, result);
         });
     };
-        
+
     Subscribe(id, token, cb){
         let subscriberId = jwt.verify(token, this.secret);
         let userId = subscriberId.id;
@@ -80,8 +80,14 @@ class User extends db {
         });
     }
 
-    Feedback(message, time, cb) {
-        this._Feedback(message, time, (err, result) => {
+    Feedback(token, message, time, cb) {
+        if (!token) {
+            cb("token is null", null);
+        }
+        let userId = jwt.verify(token, this.secret).id;
+        console.log(userId);
+        console.log("HAHAHAHA");
+        this._Feedback(userId, message, time, (err, result) => {
             cb(err, result);
         });
     }

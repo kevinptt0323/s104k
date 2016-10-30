@@ -99,7 +99,8 @@ app.post('/subscribe', upload.array(), (req, res) =>{
 app.post('/feedback', upload.array(), (req, res) => {
     let message = req.body.message;
     let time = req.body.time;
-    user.Feedback(message, time, (err, result) => {
+    let token = req.get('Authorization').split(' ')[1];
+    user.Feedback(token, message, time, (err, result) => {
         res.sendStatus(200);
     });
 });
