@@ -64,7 +64,7 @@ class User extends db {
             console.log(result);
             cb(err, result);
         });
-    });
+    };
         
     Subscribe(id, token, cb){
         let subscriberId = jwt.verify(token, this.secret);
