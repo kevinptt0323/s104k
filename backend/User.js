@@ -111,6 +111,12 @@ class User extends db {
             cb(err, result);
         });
     }
+
+    SearchTag(tag, cb){
+        this.Insert('SearchTag', tag, (err, result)=>{
+            cb(err, result);
+        });
+    }
 }
 
 module.exports = User;
