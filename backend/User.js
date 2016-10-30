@@ -121,7 +121,6 @@ class User extends db {
         });
     }
 
-<<<<<<< HEAD
     Feedback(message, time, cb) {
         this._Feedback(message, time, (err, result) => {
             cb(err, result);
