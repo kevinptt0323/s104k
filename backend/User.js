@@ -81,12 +81,19 @@ class User extends db {
     }
 
     Feedback(token, message, time, cb) {
-        if (!token) {
-            cb("token is null", null);
+        let decode = null;
+        try {
+            decode = jwt.verify(token, this.secret);
+        } catch (err) {
+            
         }
-        let userId = jwt.verify(token, this.secret).id;
-        console.log(userId);
-        console.log("HAHAHAHA");
+        
+        if ( decode == null) {
+            console.log("token is illegal");
+            cb("token is illegal",null);
+            return;
+        }
+        let userId = decode.id;
         this._Feedback(userId, message, time, (err, result) => {
             cb(err, result);
         });

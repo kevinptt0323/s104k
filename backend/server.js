@@ -100,8 +100,15 @@ app.post('/feedback', upload.array(), (req, res) => {
     let message = req.body.message;
     let time = req.body.time;
     let token = req.get('Authorization').split(' ')[1];
+    if (!token) {
+        res.send("token is null");
+        return;
+    }
     user.Feedback(token, message, time, (err, result) => {
-        res.sendStatus(200);
+        if (err)
+            res.send(err);
+        else 
+            res.send(result);
     });
 });
 
