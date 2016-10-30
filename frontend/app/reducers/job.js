@@ -15,6 +15,11 @@ const jobReducer = (state = initialState, action) => {
         data: {},
         error: action.response,
       };
+    case 'SEND_JOB':
+    case 'GET_JOB_SUCCEED':
+    case 'GET_JOB_FAILED':
+    console.log(action);
+      return state;
     default:
       return state;
   }

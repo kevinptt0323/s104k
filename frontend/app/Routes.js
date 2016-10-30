@@ -31,7 +31,11 @@ const Routes = (props, context) => {
         <Route path="login" component={Login} />
         <Route path="register" component={Register} />
         <Route path="user/:uid" component={User} />
-        <Route path="job/:jid" component={Job} />
+        <Route path="newjob" component={Job.Edit} />
+        <Route path="job/:jid">
+          <IndexRoute component={Job.View} />
+          <Route path="edit" component={Job.Edit} />
+        </Route>
         <Route path="channel" onEnter={auth.loginRequired}>
           <IndexRoute component={Channel} />
           <Route path=":cid" component={Channel} />

@@ -99,7 +99,7 @@ const mapStateToProps = (state, props) => ({
   token: state.auth.token,
   user: state.user.data,
   profile: state.profile.data,
-  job: state.job.data,
+  job: state.job,
 });
 
 const mapDispatchToProps = dispatch => ({
