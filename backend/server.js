@@ -79,7 +79,7 @@ app.get('/user', (req, res)=>{
 app.post('/kw', upload.array(), (req, res)=> {
 });
 
-app.post('/jobs', (req, res)=>{
+app.post('/jobs', upload.array(), (req, res)=>{
     user.Job(req.get('Authorization').split(' ')[1], req.body, (err, result)=>{
         if(err)
             res.send(err);
