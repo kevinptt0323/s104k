@@ -26,9 +26,9 @@ module.exports = function channel(server) {
         socket.on('send msg', (data) => {
             data.time = new Date();
             socket.in(data.room).emit('broadcast msg', data);
-            sockte.emit('broadcast msg', data);
+            socket.emit('broadcast msg', data);
             // save to DB
-            let obj = { roomID: data.room, account: data.account, message: data.message, time: new Date() };
+            let obj = { roomID: data.room, account: data.account, message: data.message, time: data.time };
             db.Insert('Channel', obj, (err, result) => {
                 if (err) throw err;
             });

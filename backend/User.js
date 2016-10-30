@@ -1,5 +1,6 @@
 let db = require('./DB');
 let jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 class User extends db {
     constructor(){
@@ -43,6 +44,34 @@ class User extends db {
         });
     }
 
+    GetUserInfo(token, cb){
+        console.log(token);
+        let parsed = jwt.verify(token, this.secret);
+        let id = {id: parsed.id};
+        this.Select('User', id, (err, result)=>{
+            if(result.length == 1){
+                let ret = result[0];
+                delete ret.password;
+                cb(err, ret);
+            } else {
+                cb({err: "wrong id"}, null);
+            }
+        });
+    }
+
+    Job(token, job, cb){
+        job.cid = jwt.verify(token, this.secret).id;
+        const hmac = crypto.createHmac('sha256', this.secret);
+        hmac.update(JSON.stringify({id: job.cid, time: new Date()}));
+        job.roomid = hmac.digest('hex');
+        console.log(job);
+
+        this.Insert('Jobs', job, (err, result)=>{
+            console.log(result);
+            cb(err, result);
+        });
+    };
+        
     Subscribe(id, token, cb){
         let subscriberId = jwt.verify(token, this.secret);
         let userId = subscriberId.id;
