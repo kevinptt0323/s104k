@@ -32,11 +32,12 @@ class App extends React.Component {
     this.postLogin = this.postLogin.bind(this);
   }
   getChildContext() {
-    const { props: { token, user, profile }, login, postLogin } = this;
+    const { props: { token, user, profile, job }, login, postLogin } = this;
     return {
       token,
       user,
       profile,
+      job,
       login,
       postLogin,
       config,
@@ -90,14 +91,15 @@ App.childContextTypes = {
   token: PropTypes.string,
   user: PropTypes.object,
   profile: PropTypes.object,
+  job: PropTypes.object,
   server: PropTypes.func.isRequired,
-  profile: PropTypes.object,
 };
 
 const mapStateToProps = (state, props) => ({
   token: state.auth.token,
   user: state.user.data,
-  profile: state.profile.data
+  profile: state.profile.data,
+  job: state.job.data,
 });
 
 const mapDispatchToProps = dispatch => ({

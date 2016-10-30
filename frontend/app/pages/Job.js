@@ -9,6 +9,7 @@ import { sendAjax } from '../actions/api';
 class User extends React.Component {
   static contextTypes = {
     job: PropTypes.object,
+    user: PropTypes.object,
     store: PropTypes.object.isRequired
   };
 
@@ -19,7 +20,7 @@ class User extends React.Component {
     const { jid } = props.params;
     store.dispatch(sendAjax({
       method: 'get',
-      path: `/job/${jid}`,
+      path: `/job?id=${jid}`,
       withToken: true,
       sendingType: 'GET_JOB'
     })).then(({body}) => {
@@ -32,6 +33,7 @@ class User extends React.Component {
   }
   render() {
     const { job } = this.context;
+    console.log(this.context);
     return (
       <Paper>
         <JobView job={job} />

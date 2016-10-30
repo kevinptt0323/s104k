@@ -1,6 +1,5 @@
 const initialState = { data: {} };
 const userReducer = (state = initialState, action) => {
-  console.log(action);
   switch(action.type) {
     case 'GET_USER':
       return state;
