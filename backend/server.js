@@ -68,7 +68,7 @@ app.get('/rate', upload.array(), (req, res)=>{
 });
 
 app.get('/user', (req, res)=>{
-    user.GetUserInfo(req.get('Authorization'), (err, result)=>{
+    user.GetUserInfo(req.get('Authorization').split(' ')[1], (err, result)=>{
         if(err)
             res.send(err);
         else
@@ -80,7 +80,7 @@ app.post('/kw', upload.array(), (req, res)=> {
 });
 
 app.post('/jobs', (req, res)=>{
-    user.Job(req.get('token'), req.body, (err, result)=>{
+    user.Job(req.get('Authorization').split(' ')[1], req.body, (err, result)=>{
         if(err)
             res.send(err);
         else
@@ -89,7 +89,7 @@ app.post('/jobs', (req, res)=>{
 });
 
 app.post('/subscribe', upload.array(), (req, res) =>{
-    let token = req.get('token');
+    let token = req.get('Authorization');
     let id = req.body.id;
     user.Subscribe( id, token, (err, result) => {
         res.sendStatus(200);
