@@ -37,23 +37,23 @@ class DB {
     LoadMsg(room, cb){
         let connection = mysql.createConnection(this.config);
         connection.connect();
-        connection.query("SELECT * FROM Channel WHERE roomID = ?", [room], (err, result)=>{
+        connection.query("SELECT * FROM (SELECT * FROM Channel WHERE roomID = ? ORDER BY time DESC LIMIT 30) AS Msg ORDER BY time", [room], (err, result)=>{
             console.log(result);
             connection.destroy();
             cb(err, result);
         });
     }
-    
+
     _Login(info, cb){
         let connection = mysql.createConnection(this.config);
         connection.connect();
-        connection.query("SELECT * FROM User WHERE account = ? AND password = ?", 
+        connection.query("SELECT * FROM User WHERE account = ? AND password = ?",
             [info.account, info.password], (err, result)=>{
             console.log(result);
             connection.destroy();
             cb(err, result);
         });
-        
+
     }
 
     _Rate(id, score, cb){
@@ -63,7 +63,7 @@ class DB {
                 let totalCnt = result[0].scoreCnt + 1;
                 let connection = mysql.createConnection(this.config);
                 connection.connect();
-                connection.query("UPDATE User SET ? WHERE ?", 
+                connection.query("UPDATE User SET ? WHERE ?",
                     [{score: totalScore, scoreCnt: totalCnt}, {id}], (err, result)=>{
                     console.log(result);
                     connection.destroy();
@@ -92,6 +92,19 @@ class DB {
                 });
                 cb(scores);
             });
+        }
+    }
+
+    _Subecribe(id, subscriberId, cb){
+        
+        let obj = {"employer_id" : id, "subscriber_id" : subscriberId};
+        if (id && subscriberId) {
+            this.Insert('Subscribe', obj , (err, result) => {
+                cb(err, result);
+            } );
+        }
+        else {
+            cb({err : "something null"});
         }
     }
 }
