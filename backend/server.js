@@ -130,6 +130,22 @@ app.post('/subscribe', upload.array(), (req, res) =>{
     });
 });
 
+app.post('/feedback', upload.array(), (req, res) => {
+    let message = req.body.message;
+    let time = req.body.time;
+    let token = req.get('Authorization').split(' ')[1];
+    if (!token) {
+        res.send("token is null");
+        return;
+    }
+    user.Feedback(token, message, time, (err, result) => {
+        if (err)
+            res.send(err);
+        else 
+            res.send(result);
+    });
+});
+
 server.listen(port, ()=>{
     console.log('Server listening on %d', port);
 });

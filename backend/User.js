@@ -83,6 +83,8 @@ class User extends db {
         this.Select('User', uid, (err, result)=>{
             if(result.length == 1){
                 let ret = result[0];
+                ret.score = ret.score/ret.scoreCnt;
+                delete ret.scoreCnt;
                 delete ret.password;
                 cb(err, ret);
             } else {
@@ -98,12 +100,19 @@ class User extends db {
         job.roomid = hmac.digest('hex');
         console.log(job);
 
+        let id;
         this.Insert('Jobs', job, (err, result)=>{
             console.log(result);
             cb(err, result);
+            id = result.insertId;
+        });
+
+        this.AddTag(id, job.tag, (err, result)=>{
+            if(err) throw err;
+            console.log(result);
         });
     };
-        
+
     Subscribe(id, token, cb){
         let subscriberId = jwt.verify(token, this.secret);
         let userId = subscriberId.id;
@@ -112,9 +121,42 @@ class User extends db {
         });
     }
 
-    SearchTag(tag, cb){
-        this.Insert('SearchTag', tag, (err, result)=>{
+    Feedback(token, message, time, cb) {
+        let decode = null;
+        try {
+            decode = jwt.verify(token, this.secret);
+        } catch (err) {
+            
+        }
+        
+        if ( decode == null) {
+            console.log("token is illegal");
+            cb("token is illegal",null);
+            return;
+        }
+        let userId = decode.id;
+        this._Feedback(userId, message, time, (err, result) => {
             cb(err, result);
+        });
+    }
+    
+    AddTag(jobID, tag, cb){
+        tag.forEach((item) => {
+            let tagID;
+            this.Select(item, (err, result) => {
+                if(!result[0].id){
+                    this.Insert('Tag', tag, (err, result)=>{
+                        cb(err, result);
+                        tagID = result.insertId;                                        
+                    });
+                }
+                else {
+                    tagID = result.insertId;
+                }
+            });
+            this.Insert('JobsTag', {jobID: jobID, tagID: tagID}, (err, result) => {
+                cb(err, result);
+            });
         });
     }
 }
