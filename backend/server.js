@@ -61,8 +61,27 @@ app.post('/rate', upload.array(), (req, res)=>{
     }
 });
 
+app.post('/ratejob', upload.array(), (req, res)=>{
+    if(req.body.id && req.body.score){
+        user.RateJob(req.body.id, req.body.score, (err, result)=>{
+            if(err)
+                res.send(err);
+            else
+                res.send(result);
+        });
+    } else {
+        res.send({err: "lack of id or score"});
+    }
+});
+
 app.get('/rate', upload.array(), (req, res)=>{
     user.GetRate(req.query.id, (result)=>{
+        res.send(result);
+    });
+});
+
+app.get('/ratejob', upload.array(), (req, res)=>{
+    user.GetJobRate(req.query.id, (result)=>{
         res.send(result);
     });
 });
