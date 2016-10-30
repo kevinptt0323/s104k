@@ -43,8 +43,6 @@ class User extends db {
         });
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     GetUserInfo(token, cb){
         console.log(token);
         let parsed = jwt.verify(token, this.secret);
