@@ -6,3 +6,7 @@ npm-debug.log
 *.log
 .npm
 DB.config
+<<<<<<< HEAD
+=======
+
+>>>>>>> feature/frontend
