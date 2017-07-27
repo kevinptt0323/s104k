@@ -100,16 +100,17 @@ class User extends db {
         job.roomid = hmac.digest('hex');
         console.log(job);
 
-        let id;
         this.Insert('Jobs', job, (err, result)=>{
             console.log(result);
             cb(err, result);
-            id = result.insertId;
-        });
-
-        this.AddTag(id, job.tag, (err, result)=>{
-            if(err) throw err;
-            console.log(result);
+            let id;
+            this.Select('Jobs', job, (err, result)=> {
+                id = result[0].id;
+                this.AddTag(id, job.tag, (err, result)=>{
+                    if(err) throw err;
+                    console.log(result);
+                });
+            });
         });
     };
 
@@ -142,20 +143,22 @@ class User extends db {
     
     AddTag(jobID, tag, cb){
         tag.forEach((item) => {
-            let tagID;
             this.Select(item, (err, result) => {
                 if(!result[0].id){
-                    this.Insert('Tag', tag, (err, result)=>{
+                    this.Insert('Tag', {tag: item}, (err, result)=>{
                         cb(err, result);
-                        tagID = result.insertId;                                        
+                        this.Select('Tag', {tag: item}, (err, result)=> {
+                            this.Insert('JobsTag', {jobID: jobID, tagID: result[0].id}, (err, result) => {
+                                cb(err, result);
+                            });
+                        });                                
                     });
                 }
                 else {
-                    tagID = result.insertId;
+                    this.Insert('JobsTag', {jobID: jobID, tagID: result[0].id}, (err, result) => {
+                        cb(err, result);
+                    });
                 }
-            });
-            this.Insert('JobsTag', {jobID: jobID, tagID: tagID}, (err, result) => {
-                cb(err, result);
             });
         });
     }
